@@ -57,7 +57,7 @@ class AuthController extends Controller
          ]);
     }
 
-    public function onboard(MobileStoreUserRequest $request)
+    public function register(MobileStoreUserRequest $request)
     {
         // Returns header value with default as fallback
         if(!$request->headers->has('accept')){
