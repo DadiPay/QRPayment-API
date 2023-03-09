@@ -26,9 +26,16 @@ class AuthController extends Controller
     {     
 
             $num = substr(str_shuffle("0123456789"), 0, 4);
-            $alpha = substr(str_shuffle("MNO"), 0, 1);
+            $alpha = substr(str_shuffle("MNOP"), 0, 1);
             $vendor_account = "{$num}{$alpha}";
-            return $vendor_account;      
+            $user = User::where('account', $vendor_account)->first();  
+            if ($user === null) {
+                return $vendor_account; 
+             }else{
+                $this->wallet_code();
+             }
+
+             // this is subject to test until it breaks to see if it actually works
                                 
     }
 
@@ -77,17 +84,15 @@ class AuthController extends Controller
 
 
         $vendor = User::create([
-            'dadi_code' => $vendor_code,
-            'vendor_id' =>  Str::random(40),
-            'u_id' =>  Str::random(15),
+            'account' => $vendor_code,
+            'u_id' =>  Str::random(40),
             'email' => $request['email'],
             'password' => bcrypt($request['password']),
-            'firstname' => $request['firstname'],
-            'middlename' => $request['middlename'],
-            'lastname' => $request['lastname'],
+            'fullname' => $request['fullname'],
             'phone_number' => $request['phone_number'],
-            // 'banking_status' => $request['banking_status'],
-            // 'vendor_category' => $request['vendor_category'],
+            'password' => $request['password'],
+            'wallet_id' =>  Str::random(20),
+
             // 'business_address' => $request['business_address'],
             // 'home_address' => $request['home_address'],
             // 'NIN' => $request['NIN'],
@@ -101,12 +106,10 @@ class AuthController extends Controller
 
         return $this->success ([
             'user' => [
-                'firstname' => $vendor->firstname,
-                'lastname' => $vendor->lastname,
-                'middlename' => $vendor->middlename,
+                'fullname' => $vendor->fullname,
                 'phone_number' => $vendor->phone_number,
                 'email' => $vendor->email,
-                'vendor_id' => $vendor->vendor_id,
+                'u_id' => $vendor->u_id,
             ],
 
             'token' => $token,
