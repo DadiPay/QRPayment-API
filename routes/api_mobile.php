@@ -23,6 +23,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/sendotp', [Sms_tokenController::class, 'sendotp']);
     Route::get('/sendsms', [Sms_tokenController::class, 'sendsms']);
     Route::get('/verifyotp', [Sms_tokenController::class, 'verifyotp']);
-    
-    Route::get('/logout/', [AuthController::class, 'logout']);
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
