@@ -16,6 +16,7 @@ Route::get('/mono', function () {
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::put('/setpin', [AuthController::class, 'setpin']);
 
 
 Route::group(['middleware' => ['auth:sanctum']], function () {

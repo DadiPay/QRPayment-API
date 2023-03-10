@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Http\Requests\mobile\LoginUserRequest as MobileLoginUserRequest;
 use App\Http\Requests\mobile\StoreUserRequest as MobileStoreUserRequest;
+use App\Http\Requests\mobile\UpdateSetPinRequest as MobileUpdateSetPinRequest;
 use App\Models\User;
 use Illuminate\Support\Str;
 use App\Models\Vendor;
@@ -20,7 +21,7 @@ class AuthController extends Controller
    
     use traitHttpResponses;
 
-    public function wallet_code($vendor_account = NULL)
+    public function wallet_code()
     {     
 
             $num = substr(str_shuffle("0123456789"), 0, 4);
@@ -36,6 +37,15 @@ class AuthController extends Controller
              // this is subject to test until it breaks to see if it actually works
                                 
     }
+
+
+
+
+
+
+
+
+
 
     public function login(MobileLoginUserRequest $request)
     {
@@ -65,18 +75,22 @@ class AuthController extends Controller
     }
 
 
+
+
+
+
+
+
+
+
+
     public function verifyBank(MobileLoginUserRequest $request)
     {
          $request->validated($request->all());
  
-    
-         if(!Auth::attempt($request->only(['email', 'password']))){
-            return $this->error('', 'user does not exist', '401');
-         }
-         $user = User::where('email', $request->email)->first();
+         $user = User::where('u_id', $request->u_id)->first();
  
-  
-         $update = User::where('email', $request->email)
+         $update = User::where('u_id', $request->u_id)
                 ->update([
                     'firstname' => $request->firstname, 
                     'lastname' => $request->lastname, 
@@ -99,6 +113,16 @@ class AuthController extends Controller
                 ]);
             }
 
+
+
+
+
+
+
+
+
+
+
     public function register(MobileStoreUserRequest $request)
     {
         // Returns header value with default as fallback
@@ -115,11 +139,11 @@ class AuthController extends Controller
         }
 
         //set client code
-        $vendor_code = $this->wallet_code($request['vendor_id']);
+        $user_account = $this->wallet_code();
 
 
         $user = User::create([
-            'account' => $vendor_code,
+            'account' => $user_account,
             'u_id' =>  Str::random(40),
             'email' => $request['email'],
             'password' => bcrypt($request['password']),
@@ -128,14 +152,6 @@ class AuthController extends Controller
             'password' => bcrypt($request['password']),
             'wallet_id' =>  Str::random(20),
             
-
-            // 'business_address' => $request['business_address'],
-            // 'home_address' => $request['home_address'],
-            // 'NIN' => $request['NIN'],
-            // 'BVN' => $request['BVN'],
-            // 'NOK' => $request['NOK'],
-            // 'NOK_number' => $request['NOK_number'],
-            // 'NOK_address' => $request['NOK_address'],
         ]);
 
         $token = $user->createToken("API TOKEN OF {$request['fullname']}")->plainTextToken;
@@ -157,25 +173,28 @@ class AuthController extends Controller
     }
 
 
-    public function setPin(MobileLoginUserRequest $request)
+    public function setPin(MobileUpdateSetPinRequest $request)
     {
+    
          $request->validated($request->all());
-        //STILL WORKING
-         $user = User::where('email', $request->email)->first();
- 
-         $token = $user->createToken('myappToken')->plainTextToken;
- 
-         return $this->success ([
-             'user' => [
-                 'fullname' => $user->fullname,
-                 'account' => $user->account,
-                 'wallet_amount' => $user->wallet_amount,
-                 'phone_number' => $user->phone_number,
-                 'email' => $user->email,
-                 'u_id' => $user->u_id,
-             ],
-             'token' => $token,
-         ]);
+
+         $update = User::where('u_id', $request->u_id)
+                ->update([
+                    'pin' => $request->pin, 
+                ]);
+
+                if($update){
+                    return $this->success ([
+                        'user' => [
+                            'fullname' => $update->fullname,
+                            'phone_number' => $update->phone_number,
+                            'email' => $update->email,
+                            'u_id' => $update->u_id,
+                            'next' => 'bank verification'
+                        ],
+            
+                    ]); 
+                }
     }
 
 
