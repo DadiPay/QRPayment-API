@@ -160,13 +160,7 @@ class AuthController extends Controller
     public function setPin(MobileLoginUserRequest $request)
     {
          $request->validated($request->all());
- 
-    
-         if(!Auth::attempt($request->only(['email', 'password']))){
-            return $this->error('', 'user does not exist', '401');
-         }elseif(!Auth::attempt($request->only(['phone_number', 'password']))){
-            return $this->error('', 'user does not exist pass', '401');
-         }
+        //STILL WORKING
          $user = User::where('email', $request->email)->first();
  
          $token = $user->createToken('myappToken')->plainTextToken;
