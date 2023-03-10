@@ -11,26 +11,30 @@ return new class extends Migration
      */
     public function up(): void
     {
-
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('vendors', function (Blueprint $table) {
             $table->id();
 
-            $table->string('u_id');
+            $table->string('v_id');
             $table->string('account')->unique();
-            $table->string('email')->unique;
+            $table->string('email')->nullable()->unique;
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->string('firstname')->nullable();
-            $table->string('middlename')->nullable();
-            $table->string('lastname')->nullable();
-            $table->string('fullname');
+            $table->string('firstname');
+            $table->string('middlename');
+            $table->string('lastname');
             $table->integer('phone_number');
 
-
+            
+            $table->string('banking_status')->nullable();
             $table->string('bank_name')->nullable();
             $table->integer('bank_account_number')->nullable();
             $table->string('verified_bank_user')->nullable();
+
+            $table->string('business_category')->nullable();
+            $table->string('business_address')->nullable();
+            $table->string('business_name')->nullable();
+
 
             $table->integer('NIN')->unique()->nullable();
             $table->integer('BVN')->unique()->nullable();
@@ -40,20 +44,18 @@ return new class extends Migration
 
 
             $table->string('transaction_count')->nullable();
-            $table->double('wallet_amount')->default(200.00);
+            $table->double('wallet_amount')->nullable();
             $table->string('wallet_id')->unique()->nullable();
-            $table->double('last_amount')->default(0);
-            $table->double('current_pay')->default(0);
+            $table->double('last_amount')->nullable();
+            $table->double('current_pay')->nullable();
 
 
             $table->string('phone_status')->default(0); // 1 activated, 0 not activated,
             $table->string('status')->default(0); // 0 Active 1 suspended, 2 no withdrawal,  
-            $table->string('sms_notification')->default(0); // 1 Activate,  0 Deactivate
-            $table->string('email_notification')->default(1); // 1 Activate, 0Deactivate
+            $table->string('sms_notification')->nullable();
+            $table->string('email_notification')->nullable();
 
             $table->string('role')->nullable();
-
-
 
             $table->timestamps();
         });
@@ -64,6 +66,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('vendors');
     }
 };

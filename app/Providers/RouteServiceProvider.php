@@ -25,10 +25,13 @@ class RouteServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureRateLimiting();
+        $this->mapWebapiRoute();
+        $this->mapWebmobileRoute();
 
         $this->routes(function () {
             Route::middleware('api')
                 ->prefix('api')
+               
                 ->group(base_path('routes/api.php'));
 
             Route::middleware('web')
@@ -39,6 +42,24 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * Configure the rate limiters for the application.
      */
+
+    protected function mapWebapiRoute()
+    {
+        Route::prefix('ven')
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/api_Web.php'));
+    }
+
+    
+    protected function mapWebmobileRoute()
+    {
+        Route::prefix('mob')
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/api_mobile.php'));
+    }
+
     protected function configureRateLimiting(): void
     {
         RateLimiter::for('api', function (Request $request) {

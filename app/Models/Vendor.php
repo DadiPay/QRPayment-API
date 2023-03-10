@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+
+class Vendor extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -18,31 +18,35 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'u_id',
+        'v_id',
         'account',
         'email',
         'password',
         'firstname',
         'middlename',
         'lastname',
-        'fullname',
         'phone_number',
-
-        'bank_name',
-        'bank_account_number',
-        'verified_bank_user',
-
+        
         'wallet_id',
         'wallet_amount',
         'last_amount',
         'current_pay',
         'transaction_count',
-        
+
         'sms_notification',
         'email_notification',
         'phone_status',
         'status',
+        
+        'banking_status',
+        'bank_name',
+        'bank_account_number',
+        'verified_bank_user',
 
+        'business_category',
+        'business_address',
+        'business_name',
+        
         'NIN',
         'BVN',
         'NOK',
@@ -72,3 +76,4 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 }
+
