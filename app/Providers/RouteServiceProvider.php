@@ -26,12 +26,11 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->configureRateLimiting();
         $this->mapWebapiRoute();
-        $this->mapWebmobileRoute();
+        $this->mapmobileRoute();
 
         $this->routes(function () {
             Route::middleware('api')
                 ->prefix('api')
-               
                 ->group(base_path('routes/api.php'));
 
             Route::middleware('web')
@@ -45,17 +44,15 @@ class RouteServiceProvider extends ServiceProvider
 
     protected function mapWebapiRoute()
     {
-        Route::prefix('ven')
-            ->middleware('api')
+        Route::prefix('ven') 
             ->namespace($this->namespace)
             ->group(base_path('routes/api_Web.php'));
     }
 
     
-    protected function mapWebmobileRoute()
+    protected function mapmobileRoute()
     {
         Route::prefix('mob')
-            ->middleware('api')
             ->namespace($this->namespace)
             ->group(base_path('routes/api_mobile.php'));
     }
