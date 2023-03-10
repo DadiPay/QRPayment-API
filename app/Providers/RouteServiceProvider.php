@@ -46,7 +46,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix('ven') 
             ->namespace($this->namespace)
-            ->group(base_path('routes/api_Web.php'));
+            ->group(base_path('routes/api_web.php'));
     }
 
     
