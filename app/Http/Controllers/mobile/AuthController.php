@@ -42,13 +42,12 @@ class AuthController extends Controller
          $request->validated($request->all());
  
     
-         if(Auth::attempt($request->only(['email']))){
-            $user = User::where('email', $request->email)->first();
-            if(Hash::check($request->password, $user->password)){
-
-            }
+         if(!Auth::attempt($request->only(['email', 'password']))){
+            return $this->error('', 'user does not exist', '401');
+         }elseif(!Auth::attempt($request->only(['phone_number', 'password']))){
+            return $this->error('', 'user does not exist pass', '401');
          }
- 
+         $user = User::where('email', $request->email)->first();
  
          $token = $user->createToken('myappToken')->plainTextToken;
  
@@ -64,6 +63,41 @@ class AuthController extends Controller
              'token' => $token,
          ]);
     }
+
+
+    public function verifyBank(MobileLoginUserRequest $request)
+    {
+         $request->validated($request->all());
+ 
+    
+         if(!Auth::attempt($request->only(['email', 'password']))){
+            return $this->error('', 'user does not exist', '401');
+         }
+         $user = User::where('email', $request->email)->first();
+ 
+  
+         $update = User::where('email', $request->email)
+                ->update([
+                    'firstname' => $request->firstname, 
+                    'lastname' => $request->lastname, 
+                    'middlename' => $request->middlename, 
+                    'bank_name' => $request->bank_name, 
+                    'bank_account_no' => $request->bank_account_no, 
+                    'verified_bank_user' => $request->bank_account_no, 
+                ]);
+                $token = $user->createToken("API TOKEN OF {$request['firstname']}")->plainTextToken;
+                return $this->success ([
+                    'user' => [
+                        'firstname' => $update->firstname,
+                        'phone_number' => $update->phone_number,
+                        'email' => $update->email,
+                        'u_id' => $update->u_id,
+                        'next' => 'Set pin'
+                    ],
+        
+                    'token' => $token,
+                ]);
+            }
 
     public function register(MobileStoreUserRequest $request)
     {
@@ -120,6 +154,34 @@ class AuthController extends Controller
 
        
 
+    }
+
+
+    public function setPin(MobileLoginUserRequest $request)
+    {
+         $request->validated($request->all());
+ 
+    
+         if(!Auth::attempt($request->only(['email', 'password']))){
+            return $this->error('', 'user does not exist', '401');
+         }elseif(!Auth::attempt($request->only(['phone_number', 'password']))){
+            return $this->error('', 'user does not exist pass', '401');
+         }
+         $user = User::where('email', $request->email)->first();
+ 
+         $token = $user->createToken('myappToken')->plainTextToken;
+ 
+         return $this->success ([
+             'user' => [
+                 'fullname' => $user->fullname,
+                 'account' => $user->account,
+                 'wallet_amount' => $user->wallet_amount,
+                 'phone_number' => $user->phone_number,
+                 'email' => $user->email,
+                 'u_id' => $user->u_id,
+             ],
+             'token' => $token,
+         ]);
     }
 
 

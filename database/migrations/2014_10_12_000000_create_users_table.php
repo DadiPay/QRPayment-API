@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('middlename')->nullable();
             $table->string('lastname')->nullable();
             $table->string('fullname');
-            $table->integer('phone_number');
+            $table->bigInteger('phone_number');
 
 
             $table->string('bank_name')->nullable();
