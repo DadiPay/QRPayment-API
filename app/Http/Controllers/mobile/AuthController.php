@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\web;
+namespace App\Http\Controllers\mobile;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\LoginUserRequest;
+
 use App\Http\Requests\mobile\LoginUserRequest as MobileLoginUserRequest;
-use App\Http\Requests\mobile\mobile\StoreUserRequest as MobileStoreUserRequest;
-use App\Http\Requests\StorePersonalRequest;
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\StoreVendorRequest;
+use App\Http\Requests\mobile\StoreUserRequest as MobileStoreUserRequest;
 use App\Models\User;
 use Illuminate\Support\Str;
 use App\Models\Vendor;
@@ -27,7 +24,7 @@ class AuthController extends Controller
 
             $num = substr(str_shuffle("0123456789"), 0, 4);
             $alpha = substr(str_shuffle("MNOP"), 0, 1);
-            $vendor_account = "{$num}{$alpha}";
+            $vendor_account = "{$alpha}{$num}";
             $user = User::where('account', $vendor_account)->first();  
             if ($user === null) {
                 return $vendor_account; 
@@ -43,8 +40,8 @@ class AuthController extends Controller
     {
          $request->validated($request->all());
  
-         if(!Auth::attempt($request->only(['email', 'password']))){
-             return $this->error('', 'Email or Password dont match', '401');
+         if(!Auth::attempt($request->only(['email', 'password'])) || !Auth::attempt($request->only(['phone_number', 'password']))){
+             return $this->error('', 'Email/Phone number or Password dont match', '401');
          }
  
          $user = User::where('email', $request->email)->first();
@@ -92,6 +89,7 @@ class AuthController extends Controller
             'phone_number' => $request['phone_number'],
             'password' => $request['password'],
             'wallet_id' =>  Str::random(20),
+            
 
             // 'business_address' => $request['business_address'],
             // 'home_address' => $request['home_address'],
@@ -110,6 +108,7 @@ class AuthController extends Controller
                 'phone_number' => $vendor->phone_number,
                 'email' => $vendor->email,
                 'u_id' => $vendor->u_id,
+                'next' => 'bank verification'
             ],
 
             'token' => $token,

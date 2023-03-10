@@ -55,7 +55,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebmobileRoute()
     {
         Route::prefix('mob')
-            ->middleware('mob')
+            ->middleware('api')
             ->namespace($this->namespace)
             ->group(base_path('routes/api_mobile.php'));
     }

@@ -10,12 +10,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
+Route::get('/mono', function () {
+    return 'mono';
+});
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-
-
 
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
@@ -23,5 +23,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/sendotp', [Sms_tokenController::class, 'sendotp']);
     Route::get('/sendsms', [Sms_tokenController::class, 'sendsms']);
     Route::get('/verifyotp', [Sms_tokenController::class, 'verifyotp']);
-    Route::post('/logout', [AuthController::class, 'logout']);
+    
+    Route::get('/logout', [AuthController::class, 'logout']);
 });

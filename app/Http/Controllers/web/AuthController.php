@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\web;
 
-
+use App\Http\Controllers\Controller;
 use App\Http\Requests\web\LoginUserRequest as WebLoginUserRequest;
 use App\Http\Requests\web\StorePersonalRequest as StorePersonalRequest;
 use App\Http\Requests\web\StoreVendorRequest as WebStoreVendorRequest;
