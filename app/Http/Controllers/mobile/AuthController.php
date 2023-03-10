@@ -13,6 +13,7 @@ use App\Models\Wallet;
 use Illuminate\Http\Request;
 use App\Trait\HttpResponses as TraitHttpResponses;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -40,22 +41,25 @@ class AuthController extends Controller
     {
          $request->validated($request->all());
  
-         if(!Auth::attempt($request->only(['email', 'password'])) || !Auth::attempt($request->only(['phone_number', 'password']))){
-             return $this->error('', 'Email/Phone number or Password dont match', '401');
+    
+         if(Auth::attempt($request->only(['email']))){
+            $user = User::where('email', $request->email)->first();
+            if(Hash::check($request->password, $user->password)){
+
+            }
          }
- 
-         $user = User::where('email', $request->email)->first();
  
  
          $token = $user->createToken('myappToken')->plainTextToken;
  
          return $this->success ([
              'user' => [
-                 'firstname' => $user->firstname,
-                 'lastname' => $user->lastname,
-                 'dadi_code' => $user->dadi_code,
+                 'fullname' => $user->fullname,
+                 'account' => $user->account,
+                 'wallet_amount' => $user->wallet_amount,
                  'phone_number' => $user->phone_number,
                  'email' => $user->email,
+                 'u_id' => $user->u_id,
              ],
              'token' => $token,
          ]);
@@ -80,14 +84,14 @@ class AuthController extends Controller
         $vendor_code = $this->wallet_code($request['vendor_id']);
 
 
-        $vendor = User::create([
+        $user = User::create([
             'account' => $vendor_code,
             'u_id' =>  Str::random(40),
             'email' => $request['email'],
             'password' => bcrypt($request['password']),
             'fullname' => $request['fullname'],
             'phone_number' => $request['phone_number'],
-            'password' => $request['password'],
+            'password' => bcrypt($request['password']),
             'wallet_id' =>  Str::random(20),
             
 
@@ -100,14 +104,14 @@ class AuthController extends Controller
             // 'NOK_address' => $request['NOK_address'],
         ]);
 
-        $token = $vendor->createToken("API TOKEN OF {$request['firstname']} {$request['middlename']} {$request['lastname']}")->plainTextToken;
+        $token = $user->createToken("API TOKEN OF {$request['fullname']}")->plainTextToken;
 
         return $this->success ([
             'user' => [
-                'fullname' => $vendor->fullname,
-                'phone_number' => $vendor->phone_number,
-                'email' => $vendor->email,
-                'u_id' => $vendor->u_id,
+                'fullname' => $user->fullname,
+                'phone_number' => $user->phone_number,
+                'email' => $user->email,
+                'u_id' => $user->u_id,
                 'next' => 'bank verification'
             ],
 

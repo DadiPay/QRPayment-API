@@ -23,7 +23,7 @@ class LoginUserRequest extends FormRequest
     {
         return [
             'email' => ['string', 'email'],
-            'phone_number' => ['string', 'phone_number', 'numeric', 'size:11'],
+            'phone_number' => ['string', 'numeric', 'size:11'],
             'password' => ['required', 'string']
         ];
     }
