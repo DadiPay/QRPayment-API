@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\mobile\AuthController;
 use App\Http\Controllers\mobile\Sms_tokenController;
+use App\Http\Controllers\mobile\PaymentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,4 +27,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/verifyotp', [Sms_tokenController::class, 'verifyotp']);
     
     Route::get('/logout', [AuthController::class, 'logout']);
+});
+
+
+Route::group([
+        'middleware' => ['auth:sanctum'],
+        "prefix" => "payment",],
+    function () {
+    Route::get('generateQRCode', [PaymentController::class, 'generateQRCode']);
+    Route::get('generateDetails', [PaymentController::class, 'generatePaymentDetails']);
 });
