@@ -25,8 +25,8 @@ class PaymentController extends Controller
 
     }
 
-    public function generatePaymentDetails(Request $request){
-        $encrypted_string = $request->input('encrypted_string');
+    public function generatePaymentDetails(Request $request, $code){
+        $encrypted_string = $code;
         $decrypt = Crypt::decryptString($encrypted_string);
         $user = User::where('wallet_id', $decrypt)->first();
         $vendor = ""; //do a check to find out if it is a vendor using the foreign key from the user object

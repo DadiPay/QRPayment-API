@@ -31,9 +31,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 
 Route::group([
-        'middleware' => ['auth:sanctum'],
+        'middleware' => "api",
         "prefix" => "payment",],
     function () {
-    Route::get('generateQRCode', [PaymentController::class, 'generateQRCode']);
-    Route::get('generateDetails', [PaymentController::class, 'generatePaymentDetails']);
+    Route::get("generateQRCode", [PaymentController::class, "generateQRCode"]);
+    Route::get("generateDetails/{code}", [PaymentController::class, "generatePaymentDetails"]);
 });
