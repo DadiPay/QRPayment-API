@@ -1,6 +1,7 @@
+
 ## A QR Payment System
 
-Dadipay is a QR payment system where vendors can receive payment from their customers by scanning a QR code.
+
 
 ## About The Code
 
