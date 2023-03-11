@@ -173,30 +173,6 @@ class AuthController extends Controller
     }
 
 
-    public function setPin(MobileUpdateSetPinRequest $request)
-    {
-    
-         $request->validated($request->all());
-
-         $update = User::where('u_id', $request->u_id)
-                ->update([
-                    'pin' => $request->pin, 
-                ]);
-
-                if($update){
-                    return $this->success ([
-                        'user' => [
-                            'fullname' => $update->fullname,
-                            'phone_number' => $update->phone_number,
-                            'email' => $update->email,
-                            'u_id' => $update->u_id,
-                            'next' => 'bank verification'
-                        ],
-            
-                    ]); 
-                }
-    }
-
 
     public function logout(Request $request)
     {

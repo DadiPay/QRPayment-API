@@ -9,7 +9,7 @@ use App\Http\Requests\StoreVendorRequest;
 use App\Http\Requests\UpdateVendorRequest;
 use Illuminate\Support\Facades\Http;
 
-class Sms_tokenController extends Controller
+class SmsController extends Controller
 {
     /**
      * Display a listing of the resource.

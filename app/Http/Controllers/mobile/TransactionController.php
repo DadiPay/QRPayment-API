@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\mobile\StoreTransactionRequest as MobileStoreTransactionRequest;
+use App\Http\Requests\mobile\UpdateTransactionRequest as MobileUpdateTransactionRequest;
 use App\Models\Transaction;
 use App\Http\Requests\StoreTransactionRequest;
 use App\Http\Requests\UpdateTransactionRequest;
@@ -27,7 +29,7 @@ class TransactionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTransactionRequest $request)
+    public function store(MobileStoreTransactionRequest $request)
     {
         //
     }
@@ -51,7 +53,7 @@ class TransactionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTransactionRequest $request, Transaction $transaction)
+    public function update(MobileUpdateTransactionRequest $request, Transaction $transaction)
     {
         //
     }
