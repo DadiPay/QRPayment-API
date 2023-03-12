@@ -1,12 +1,8 @@
 <?php
 
 use App\Http\Controllers\mobile\AuthController;
-<<<<<<< HEAD
-use App\Http\Controllers\web\SmsController;
-=======
-use App\Http\Controllers\mobile\Sms_tokenController;
 use App\Http\Controllers\mobile\PaymentController;
->>>>>>> 2973e96f088525f268a29a478ca87d4c8692280f
+use App\Http\Controllers\mobile\SmsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,12 +15,19 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::put('/setpin', [AuthController::class, 'setpin']);
 
+Route::get('/sms', [SmsController::class, 'sendsms']);
+Route::get('/sendotpmobile', [SmsController::class, 'sendotpmobile']);
+Route::get('/sendotpmail', [SmsController::class, 'sendotpmail']);
+Route::get('/sendsms', [SmsController::class, 'sendsms']);
+Route::get('/verifyotp/{pin}/{code}', [SmsController::class, 'verifyotp']);
+Route::get('/sendwhatsapp', [SmsController::class, 'sendwhatsapp']);
+
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/sms', [SmsController::class, 'sendsms']);
-    Route::get('/sendotp', [SmsController::class, 'sendotp']);
-    Route::get('/sendsms', [SmsController::class, 'sendsms']);
-    Route::get('/verifyotp', [SmsController::class, 'verifyotp']);
+    // Route::get('/sms', [SmsController::class, 'sendsms']);
+    // Route::get('/sendotp', [SmsController::class, 'sendotp']);
+    // Route::get('/sendsms', [SmsController::class, 'sendsms']);
+    // Route::get('/verifyotp', [SmsController::class, 'verifyotp']);
     
     Route::get('/logout', [AuthController::class, 'logout']);
 });
