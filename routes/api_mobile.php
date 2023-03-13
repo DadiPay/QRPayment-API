@@ -3,6 +3,7 @@
 use App\Http\Controllers\mobile\AuthController;
 use App\Http\Controllers\mobile\Sms_tokenController;
 use App\Http\Controllers\mobile\PaymentController;
+use App\Http\Controllers\web\SmsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,10 +22,10 @@ Route::put('/setpin', [AuthController::class, 'setpin']);
 
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/sms', [Sms_tokenController::class, 'sendsms']);
-    Route::get('/sendotp', [Sms_tokenController::class, 'sendotp']);
-    Route::get('/sendsms', [Sms_tokenController::class, 'sendsms']);
-    Route::get('/verifyotp', [Sms_tokenController::class, 'verifyotp']);
+    Route::get('/sms', [SmsController::class, 'sendsms']);
+    Route::get('/sendotp', [SmsController::class, 'sendotp']);
+    Route::get('/sendsms', [SmsController::class, 'sendsms']);
+    Route::get('/verifyotp', [SmsController::class, 'verifyotp']);
     
     Route::get('/logout', [AuthController::class, 'logout']);
 });
