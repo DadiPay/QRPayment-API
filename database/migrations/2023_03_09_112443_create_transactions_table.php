@@ -28,7 +28,7 @@ return new class extends Migration
             $table->double('sender_new_amount');
             $table->double('receiver_previous_amount');
             $table->double('receiver_new_amount');
-            $table->string('wallet_status')->default('not updated');
+            $table->string('wallet_status')->default('not updated'); // check if the receivers wallet has been updated
             $table->string('transaction_status')->defaule(0);
 
 
