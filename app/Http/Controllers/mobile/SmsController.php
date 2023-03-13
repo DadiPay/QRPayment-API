@@ -53,27 +53,6 @@ class SmsController extends Controller
                 return $this->resultSizeError($response['resultSizeEstimate'], '');
             }
 
-        // $update = User::where('phone_number', '92093034')
-        //         ->update([
-        //             'firstname' => $request['firstname'],
-        //             'middlename' => $request['middlename'],
-        //             'lastname' => $request['lastname'],
-        //             'NIN' => $request['lastname'],
-        //             'DOB' => $request['lastname'],
-                 
-        //         ]);
-
-
-        // return $this->success ([
-        //     'user' => [
-        //         'firstname' => $update->firstname,
-        //         'middlename' =>  $update->middlename,
-        //         'lastname' =>  $update->lastname,
-         
-        //     ],
-
-        //     // 'token' => $token,
-        // ]);
     }
 
 
@@ -85,24 +64,13 @@ class SmsController extends Controller
     public function sendsms()
     {
 
-        // $response = Http::retry(10, 200)
-        //         ->withHeaders(['Authorization' => 'Bearer '.env('SEND_CHAMP') ])
-        //         ->acceptJson()
-        //         ->post("https://api.sendchamp.com/api/v1/sms/send",[
-        //             'to' => '2349067082842',
-        //             'sender_name' => 'DAlert',
-        //             'message' => 'Hi there, welcome to DadiPay digital wallet service',
-        //             'route' => 'dnd',
-        //         ]);
-        // return $response;
-
         $response = Http::retry(10, 200)
                 // ->withHeaders(['Authorization' => 'Bearer '.env('APPRUVE_TEST') ])
                 ->acceptJson()
                 ->post("https://api.ng.termii.com/api/sms/send",[
                     'to' => '2349079417401',
-                    'from' => 'DadiPay',
-                    'sms' => 'Hi there, welcome to DadiPay digital wallet service',
+                    'from' => 'N-Alert',
+                    'sms' => 'Hi there, this is DadiPay digital wallet service, pay for utility',
                     'type' => 'plain',
                     'channel' => 'dnd',
                     'api_key' => env('TERMII_API_KEY'),
@@ -115,31 +83,31 @@ class SmsController extends Controller
     public function sendwhatsapp()
     {
 
-$curl = curl_init();
-$data = array("api_key" => env('TERMII_API_KEY'), "to" => "2349079417401",  "from" => "TID",
-"sms" => "Hi there, testing Termii ",  "type" => "plain",  "channel" => "whatsapp" );
+        $curl = curl_init();
+        $data = array("api_key" => env('TERMII_API_KEY'), "to" => "2349079417401",  "from" => "TID",
+        "sms" => "Hi there, testing Termii ",  "type" => "plain",  "channel" => "whatsapp" );
 
-$post_data = json_encode($data);
+        $post_data = json_encode($data);
 
-curl_setopt_array($curl, array(
-CURLOPT_URL => "https://api.ng.termii.com/api/sms/send",
-CURLOPT_RETURNTRANSFER => true,
-CURLOPT_ENCODING => "",
-CURLOPT_MAXREDIRS => 10,
-CURLOPT_TIMEOUT => 0,
-CURLOPT_FOLLOWLOCATION => true,
-CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-CURLOPT_CUSTOMREQUEST => "POST",
-CURLOPT_POSTFIELDS => $post_data,
-CURLOPT_HTTPHEADER => array(
-"Content-Type: application/json"
-),
-));
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://api.ng.termii.com/api/sms/send",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => $post_data,
+        CURLOPT_HTTPHEADER => array(
+        "Content-Type: application/json"
+        ),
+        ));
 
-$response = curl_exec($curl);
+        $response = curl_exec($curl);
 
-curl_close($curl);
-echo $response;
+        curl_close($curl);
+        echo $response;
     
     }
 
@@ -148,25 +116,6 @@ echo $response;
 
     public function sendotpmobile()
     {
-        // $obj = ['description' => 'demo'];
-
-        // $response = Http::retry(10, 200)
-        // ->withHeaders(['Authorization' => 'Bearer '.env('SEND_CHAMP') ])
-        // ->acceptJson()
-        // ->post("https://api.sendchamp.com/api/v1/verification/create",[
-        //     'channel' => 'sms',
-        //     'sender' => 'DAlert',
-        //     'token_type' => 'numeric',
-        //     'token_length' => '5',
-        //     'expiration_time' => '60',
-        //     'customer_mobile_number' => '2349079417401',
-        //     'meta_data'=>  array ('description' => 'demo'),
-          
-       
-        // ]);
-        // return $response;
-
-  
 
         $response = Http::retry(10, 200)
                 ->acceptJson()
