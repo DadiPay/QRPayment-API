@@ -61,9 +61,12 @@ class SmsController extends Controller
     [[[[[[[[[[[[[[[[[[[[[[OTP MORE]]]]]]]]]]]]]]]]]]]]]]
     */
 
-    public function sendsms()
+    public function sendsms($number)
     {
 
+        $number = substr($number, 1);
+        $number = "234" . $number;
+        // return $number;
         $response = Http::retry(10, 200)
                 // ->withHeaders(['Authorization' => 'Bearer '.env('APPRUVE_TEST') ])
                 ->acceptJson()
@@ -80,9 +83,12 @@ class SmsController extends Controller
     }
 
 
-    public function sendwhatsapp()
+    public function sendwhatsapp($number)
     {
 
+        $number = substr($number, 1);
+        $number = "234" . $number;
+        // return $number;
         $curl = curl_init();
         $data = array("api_key" => env('TERMII_API_KEY'), "to" => "2349079417401",  "from" => "TID",
         "sms" => "Hi there, testing Termii ",  "type" => "plain",  "channel" => "whatsapp" );
@@ -114,9 +120,12 @@ class SmsController extends Controller
 
 
 
-    public function sendotpmobile()
+    public function sendotpmobile($number)
     {
 
+        $number = substr($number, 1);
+        $number = "234" . $number;
+        // return $number;
         $response = Http::retry(10, 200)
                 ->acceptJson()
                 ->post("https://api.ng.termii.com/api/sms/otp/send",[
@@ -140,31 +149,8 @@ class SmsController extends Controller
 
 
 
-    public function sendotpmail()
+    public function sendotpmail($email)
     {
-        // $curl = curl_init();
-        // $data = array("email_address" => "drrowly99@gmail.com", "code" => "092471", "api_key" => env('TERMII_API_KEY'),  "email_configuration_id" => "44b10130-7e72-415b-8261-f8394b262ee8" );
-
-        // $post_data = json_encode($data);
-
-        // curl_setopt_array($curl, array(
-        // CURLOPT_URL => 'https://api.ng.termii.com/api/email/otp/send',
-        // CURLOPT_RETURNTRANSFER => true,
-        // CURLOPT_ENCODING => '',
-        // CURLOPT_MAXREDIRS => 10,
-        // CURLOPT_TIMEOUT => 0,
-        // CURLOPT_FOLLOWLOCATION => true,
-        // CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        // CURLOPT_CUSTOMREQUEST => 'POST',
-        // CURLOPT_POSTFIELDS => $post_data,
-        // CURLOPT_HTTPHEADER => array(
-        // 'Content-Type: application/json'
-        // ),
-        // ));
-          // $response = curl_exec($curl);   
-        // curl_close($curl);
-        // echo $response;
-
 
        $response = Http::retry(10, 200)
                 ->acceptJson()
@@ -190,18 +176,7 @@ class SmsController extends Controller
                     "pin" => $pin,
                 ]);
                 return $response;
-                //991938bf-7859-422e-a704-e509e33d3ff6
-                // $response = Http::retry(10, 200)
-                // ->withHeaders(['Authorization' => 'Bearer '.env('SEND_CHAMP') ])
-                // ->acceptJson()
-                // ->post("https://api.sendchamp.com/api/v1/verification/confirm",[
-           
-                //     "verification_reference" => "MN-OTP-0963d8ee-23df-488e-8dc6-20229999b1e1",
-                //     "verification_code" => "02341",
-                // ]);
 
-                // return $response;
-                
          
     }
 

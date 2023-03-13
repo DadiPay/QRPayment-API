@@ -15,12 +15,12 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::put('/setpin', [AuthController::class, 'setpin']);
 
-Route::get('/sms', [SmsController::class, 'sendsms']);
-Route::get('/sendotpmobile', [SmsController::class, 'sendotpmobile']);
-Route::get('/sendotpmail', [SmsController::class, 'sendotpmail']);
-Route::get('/sendsms', [SmsController::class, 'sendsms']);
+Route::get('/sms/{number}', [SmsController::class, 'sendsms']);
+Route::get('/sendotpmobile/{number}', [SmsController::class, 'sendotpmobile']);
+Route::get('/sendotpmail/{email}', [SmsController::class, 'sendotpmail']);
+Route::get('/sendsms/{number}', [SmsController::class, 'sendsms']);
 Route::get('/verifyotp/{pin}/{code}', [SmsController::class, 'verifyotp']);
-Route::get('/sendwhatsapp', [SmsController::class, 'sendwhatsapp']);
+Route::get('/sendwhatsapp/{number}', [SmsController::class, 'sendwhatsapp']);
 
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
