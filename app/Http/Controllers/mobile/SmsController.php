@@ -61,13 +61,14 @@ class SmsController extends Controller
     [[[[[[[[[[[[[[[[[[[[[[OTP MORE]]]]]]]]]]]]]]]]]]]]]]
     */
 
-    public function sendsms($number)
+    public function sendsms($number, $token = null)
     {
 
         $number = substr($number, 1);
         $number = "234" . $number;
         // return $number;
-        $response = Http::retry(10, 200)
+        if(!$token){
+            $response = Http::retry(10, 200)
                 // ->withHeaders(['Authorization' => 'Bearer '.env('APPRUVE_TEST') ])
                 ->acceptJson()
                 ->post("https://api.ng.termii.com/api/sms/send",[
@@ -80,6 +81,21 @@ class SmsController extends Controller
                 ]);
     
                 return $response;
+        } else{
+            $response = Http::retry(10, 200)
+                // ->withHeaders(['Authorization' => 'Bearer '.env('APPRUVE_TEST') ])
+                ->acceptJson()
+                ->post("https://api.ng.termii.com/api/sms/send",[
+                    'to' => '2349079417401',
+                    'from' => 'N-Alert',
+                    'sms' => 'Hi there, this is DadiPay digital wallet service, your password reset token is '. $token,
+                    'type' => 'plain',
+                    'channel' => 'dnd',
+                    'api_key' => env('TERMII_API_KEY'),
+                ]);
+    
+                return $response;
+        }
     }
 
 

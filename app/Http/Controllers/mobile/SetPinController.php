@@ -14,11 +14,12 @@ class SetPinController extends Controller
     public function setPin(UpdateSetPinRequest $request)
     {
     
-         $request->validated($request->all());
-         $user = User::where('u_id', $request->u_id)->first();
-         $update = User::where('u_id', $request->u_id)
+        $request->validated($request->all());
+        $user = User::where('u_id', auth()->user()->u_id)->first();
+        if($user){
+            $update = User::where('u_id', auth()->user()->u_id)
                 ->update([
-                    'pin' => $request->pin, 
+                    'pin' => $request->input('pin'), 
                 ]);
 
                 if($update){
@@ -32,7 +33,11 @@ class SetPinController extends Controller
                         ],
             
                     ]); 
-                }
+            }
+
+        }else{
+            return response()->json(['error' => 'User not found.'], 404);
+        }
     }
 
 }
