@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\web;
+namespace App\Http\Controllers\mobile;
 
 use App\Http\Controllers\Controller;
 use App\Models\Vendor;
@@ -53,27 +53,6 @@ class SmsController extends Controller
                 return $this->resultSizeError($response['resultSizeEstimate'], '');
             }
 
-        // $update = User::where('phone_number', '92093034')
-        //         ->update([
-        //             'firstname' => $request['firstname'],
-        //             'middlename' => $request['middlename'],
-        //             'lastname' => $request['lastname'],
-        //             'NIN' => $request['lastname'],
-        //             'DOB' => $request['lastname'],
-                 
-        //         ]);
-
-
-        // return $this->success ([
-        //     'user' => [
-        //         'firstname' => $update->firstname,
-        //         'middlename' =>  $update->middlename,
-        //         'lastname' =>  $update->lastname,
-         
-        //     ],
-
-        //     // 'token' => $token,
-        // ]);
     }
 
 
@@ -82,135 +61,122 @@ class SmsController extends Controller
     [[[[[[[[[[[[[[[[[[[[[[OTP MORE]]]]]]]]]]]]]]]]]]]]]]
     */
 
-    public function sendsms()
+    public function sendsms($number)
     {
 
+        $number = substr($number, 1);
+        $number = "234" . $number;
+        // return $number;
         $response = Http::retry(10, 200)
-                ->withHeaders(['Authorization' => 'Bearer '.env('SEND_CHAMP') ])
+                // ->withHeaders(['Authorization' => 'Bearer '.env('APPRUVE_TEST') ])
                 ->acceptJson()
-                ->post("https://api.sendchamp.com/api/v1/sms/send",[
-                    'to' => '2349067082842',
-                    'sender_name' => 'DAlert',
-                    'message' => 'Hi there, welcome to DadiPay digital wallet service',
-                    'route' => 'dnd',
+                ->post("https://api.ng.termii.com/api/sms/send",[
+                    'to' => '2349079417401',
+                    'from' => 'N-Alert',
+                    'sms' => 'Hi there, this is DadiPay digital wallet service, pay for utility',
+                    'type' => 'plain',
+                    'channel' => 'dnd',
+                    'api_key' => env('TERMII_API_KEY'),
                 ]);
-        return $response;
-
-        // $response = Http::retry(10, 200)
-        //         // ->withHeaders(['Authorization' => 'Bearer '.env('APPRUVE_TEST') ])
-        //         ->acceptJson()
-        //         ->post("https://api.ng.termii.com/api/sms/send",[
-        //             'to' => '2349079417401',
-        //             'from' => 'fastBeep',
-        //             'sms' => 'Hi there, welcome to DadiPay digital wallet service',
-        //             'type' => 'plain',
-        //             'channel' => 'generic',
-        //             'api_key' => env('TERMII_API_KEY'),
-        //         ]);
     
-    }
-
-
-
-
-    public function sendotp()
-    {
-        // $obj = ['description' => 'demo'];
-
-        // $response = Http::retry(10, 200)
-        // ->withHeaders(['Authorization' => 'Bearer '.env('SEND_CHAMP') ])
-        // ->acceptJson()
-        // ->post("https://api.sendchamp.com/api/v1/verification/create",[
-        //     'channel' => 'sms',
-        //     'sender' => 'DAlert',
-        //     'token_type' => 'numeric',
-        //     'token_length' => '5',
-        //     'expiration_time' => '60',
-        //     'customer_mobile_number' => '2349079417401',
-        //     'meta_data'=>  array ('description' => 'demo'),
-          
-       
-        // ]);
-        // return $response;
-
- 
-$curl = curl_init();
-
-curl_setopt_array($curl, array(
-  CURLOPT_URL => 'https://api.sendchamp.com/api/v1/verification/create',
-  CURLOPT_RETURNTRANSFER => true,
-  CURLOPT_ENCODING => '',
-  CURLOPT_MAXREDIRS => 10,
-  CURLOPT_TIMEOUT => 0,
-  CURLOPT_FOLLOWLOCATION => true,
-  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-  CURLOPT_CUSTOMREQUEST => 'POST',
-  CURLOPT_POSTFIELDS =>'{
-    "channel":"sms",
-    "sender":"Sendchamp",    
-    "token_type":"numeric",
-    "token_length":"5",
-    "expiration_time":60,
-    "customer_mobile_number":"2349079417401",
-    "customer_email_address":"drrowly99@gmail.com"
-   
-}',
-  CURLOPT_HTTPHEADER => array(
-    'Accept: application/json',
-    'Authorization: Bearer '.env('SEND_CHAMP') ,
-    'Content-Type: application/json'
-  ),
-));
-
-$response = curl_exec($curl);
-
-curl_close($curl);
-echo $response;
-
-
-
-
-        // $response = Http::retry(10, 200)
-        //         // ->withHeaders(['Authorization' => 'Bearer '.env('APPRUVE_TEST') ])
-        //         ->acceptJson()
-        //         ->post("https://api.ng.termii.com/api/sms/otp/send",[
-        //             "api_key" => env('TERMII_API_KEY'),
-        //             "message_type" => "NUMERIC",
-        //             "to" => "09079417401",
-        //             "from" => "fastBeep",
-        //             "channel" => "dnd",
-        //             "pin_attempts" => 10,
-        //             "pin_time_to_live" =>  5,
-        //             "pin_length" => 4,
-        //             "pin_placeholder" => "< 7878 >",
-        //             "message_text" => "Your pin is < 7878 >",
-        //             "pin_type" => "NUMERIC",
-        //         ]);
-        //         return $response;
-    }
-    
-    public function verifyotp()
-    {
-        // $response = Http::retry(10, 200)
-        //         ->withHeaders(['Authorization' => 'Bearer '.env('APPRUVE_TEST') ])
-        //         ->acceptJson()
-        //         ->post("https://api.ng.termii.com/api/sms/otp/verify",[
-        //             "api_key" => "Your API key",
-        //             "pin_id" => "NUMERIC",
-        //             "pin" => "eg. 2348109077743",
-        //         ]);
-
-                $response = Http::retry(10, 200)
-                ->withHeaders(['Authorization' => 'Bearer '.env('SEND_CHAMP') ])
-                ->acceptJson()
-                ->post("https://api.sendchamp.com/api/v1/verification/confirm",[
-           
-                    "verification_reference" => "MN-OTP-0963d8ee-23df-488e-8dc6-20229999b1e1",
-                    "verification_code" => "02341",
-                ]);
-
                 return $response;
-                
+    }
+
+
+    public function sendwhatsapp($number)
+    {
+
+        $number = substr($number, 1);
+        $number = "234" . $number;
+        // return $number;
+        $curl = curl_init();
+        $data = array("api_key" => env('TERMII_API_KEY'), "to" => "2349079417401",  "from" => "TID",
+        "sms" => "Hi there, testing Termii ",  "type" => "plain",  "channel" => "whatsapp" );
+
+        $post_data = json_encode($data);
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://api.ng.termii.com/api/sms/send",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => $post_data,
+        CURLOPT_HTTPHEADER => array(
+        "Content-Type: application/json"
+        ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        echo $response;
+    
+    }
+
+
+
+
+    public function sendotpmobile($number)
+    {
+
+        $number = substr($number, 1);
+        $number = "234" . $number;
+        // return $number;
+        $response = Http::retry(10, 200)
+                ->acceptJson()
+                ->post("https://api.ng.termii.com/api/sms/otp/send",[
+                    "api_key" => env('TERMII_API_KEY'),
+                    "message_type" => "NUMERIC",
+                    "to" => "2349079417401",
+                    "from" => "DadiPay",
+                    "channel" => "generic",
+                    "pin_attempts" => 10,
+                    "pin_time_to_live" =>  10,
+                    "pin_length" => 4,
+                    "pin_placeholder" => "< 7878 >",
+                    "message_text" => "Your DadiPay pin is < 7878 >. It will expire in 5 minutes",
+                    "pin_type" => "NUMERIC",
+                ]);
+                return $response;
+    }
+
+
+
+
+
+
+    public function sendotpmail($email)
+    {
+
+       $response = Http::retry(10, 200)
+                ->acceptJson()
+                ->post("https://api.ng.termii.com/api/email/otp/send",[
+                    "email_address" => "drrowly99@gmail.com", 
+                    "code" => "12345", 
+                    "api_key" => env('TERMII_API_KEY'),  
+                    "email_configuration_id" => "44b10130-7e72-415b-8261-f8394b262ee8"
+                ]);
+                return $response;
+
+    
+    }    
+
+    public function verifyotp($pin, $id)
+    {
+        $response = Http::retry(10, 200)
+                ->withHeaders(['Authorization' => 'Bearer '.env('APPRUVE_TEST') ])
+                ->acceptJson()
+                ->post("https://api.ng.termii.com/api/sms/otp/verify",[
+                    "api_key" => env('TERMII_API_KEY'),
+                    "pin_id" => $id,
+                    "pin" => $pin,
+                ]);
+                return $response;
+
          
     }
 

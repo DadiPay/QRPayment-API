@@ -12,24 +12,30 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transactions', function (Blueprint $table) {
-            $table->string('v_id');
-            $table->string('account')->unique();
-            $table->string('email')->nullable()->unique;
-            $table->string('password');
-            $table->string('firstname');
-            $table->string('middlename');
-            $table->string('lastname');
-            $table->integer('phone_number');
+            $table->id();
+            $table->string('sender_id');
+            $table->string('receiver_id');
+            $table->string('transaction_type');
+            $table->string('transaction_reference');
+            $table->double('transaction_amount');
+            $table->timestamp('transaction_date');
+            $table->double('transaction_fee');
+            $table->double('VAT')->nullable();
+            $table->integer('corporate_fee')->nullable();
+            $table->integer('sender_notification')->defaule(0); // 0 not received notification, 1 received
+            $table->integer('receiver_notification')->dafault(0); // 0 not received notification, 1 received
+            $table->double('sender_previous_amount');
+            $table->double('sender_new_amount');
+            $table->double('receiver_previous_amount');
+            $table->double('receiver_new_amount');
+            $table->string('wallet_status')->default('not updated'); // check if the receivers wallet has been updated
+            $table->string('transaction_status')->defaule(0);
+
+
+
 
             
-            $table->string('banking_status')->nullable();
-            $table->string('bank_name')->nullable();
-            $table->integer('bank_account_number')->nullable();
-            $table->string('verified_bank_user')->nullable();
 
-            $table->string('business_category')->nullable();
-            $table->string('business_address')->nullable();
-            $table->string('business_name')->nullable();
 
             $table->timestamps();
         });

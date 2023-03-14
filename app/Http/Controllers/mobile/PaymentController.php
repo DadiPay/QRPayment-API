@@ -43,6 +43,7 @@ class PaymentController extends Controller
             ];
 
             return $response;
+
         }elseif($user !== null){
             $response = [
                 "vendor_name" => $user->fullname,
